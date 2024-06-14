@@ -28,9 +28,23 @@ module.exports = function () {
     }
 
     this.AddItem = async function (NewItem, result) {
-        console.log(NewItem)
         var pool = await conn;
         var sqlinsert = `INSERT INTO Items( name, level) VALUES ('${NewItem.name}','${NewItem.level}')`;
+        return await pool.request()
+            .input('name', sql.NVarChar, NewItem.name)
+            .input('level', sql.NVarChar, NewItem.level)
+            .query(sqlinsert, function () {
+                result(NewItem);
+            })
+    }
+
+
+    this.UpdateItem = async function (id, NewItem, result) {
+        var pool = await conn;
+        var sqlinsert =`UPDATE Items SET 
+                        name = '${NewItem.name}',
+                        level = '${NewItem.level}'
+                        WHERE id = ${id}`;
         return await pool.request()
             .input('name', sql.NVarChar, NewItem.name)
             .input('level', sql.NVarChar, NewItem.level)

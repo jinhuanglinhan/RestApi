@@ -7,5 +7,5 @@ module.exports = function (app) {
 
     app.post('/data/create', ItemsController.AddItem);
 
-
+    app.put('/data/update/:id', ItemsController.UpdateItem);
 }
